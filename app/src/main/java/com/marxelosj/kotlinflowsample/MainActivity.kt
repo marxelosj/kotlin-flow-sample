@@ -20,13 +20,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
-        ItemsProvider.observable.subscribe(observer)
     }
-
-    override fun onDestroy() {
-        ItemsProvider.observable.unsubscribe(observer)
-        super.onDestroy()
-    }
-
 
 }

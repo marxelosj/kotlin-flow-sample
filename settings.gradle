@@ -1,0 +1,2 @@
+rootProject.name = "Korlin Flow Sample"
+include ':app'

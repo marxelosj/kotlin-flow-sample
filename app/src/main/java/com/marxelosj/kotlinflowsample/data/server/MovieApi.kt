@@ -7,6 +7,7 @@ interface MovieApi {
     @GET("discover/movie?sort_by=popularity.desc")
     suspend fun listPopularMoviesAsync(
         @Query("api_key") apiKey: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("language") language: String
     ): MovieResponse
 }

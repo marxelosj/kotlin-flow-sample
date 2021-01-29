@@ -1,7 +1,9 @@
 package com.marxelosj.kotlinflowsample.ui.common
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
@@ -14,6 +16,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
+import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline factory: () -> T): T {
@@ -36,7 +41,7 @@ val Context.app: MovieApp
 
 fun <T> CoroutineScope.collectFlow(flow: Flow<T>, body: suspend (T) -> Unit) {
     flow.onEach { body(it) }
-        .launchIn(this)
+            .launchIn(this)
 }
 
 @ExperimentalCoroutinesApi
@@ -64,3 +69,14 @@ val RecyclerView.lastVisibleEvents: Flow<Int>
         addOnScrollListener(listener)
         awaitClose { removeOnScrollListener(listener) }
     }.conflate()
+
+@SuppressLint("SimpleDateFormat")
+fun TextView.getDate(source: String, fromPattern: String, toPattern: String) {
+    try {
+        val date: Date = SimpleDateFormat(fromPattern).parse(source)
+        text = SimpleDateFormat(toPattern, Locale.getDefault()).format(date)
+    } catch (e: Exception){
+        text = "-"
+    }
+
+}

@@ -1,6 +1,5 @@
 package com.marxelosj.kotlinflowsample.ui
 
-import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -17,14 +16,9 @@ import com.bumptech.glide.request.target.Target
 import com.marxelosj.kotlinflowsample.R
 import com.marxelosj.kotlinflowsample.data.domain.Movie
 import com.marxelosj.kotlinflowsample.databinding.ItemMovieBinding
-import com.marxelosj.kotlinflowsample.ui.common.collectFlow
-import com.marxelosj.kotlinflowsample.ui.common.onClickEvents
-import com.marxelosj.kotlinflowsample.ui.common.toast
-import com.marxelosj.kotlinflowsample.ui.common.visible
+import com.marxelosj.kotlinflowsample.ui.common.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import java.text.SimpleDateFormat
-import java.util.*
 
 @ExperimentalCoroutinesApi
 class MoviesAdapter(private val scope: CoroutineScope) :
@@ -51,7 +45,7 @@ class MoviesAdapter(private val scope: CoroutineScope) :
 
         fun bind(item: Movie) = with(binding) {
             movieTitle.text = item.title
-            movieReleaseDate.text = getSimpleDateFormat("MMM d, yyyy", item.releaseDate)
+            movieReleaseDate.getDate(item.releaseDate, "yyyy-MM-dd", "MMM d, yyyy")
             Glide.with(movieCover.context)
                     .load("https://image.tmdb.org/t/p/w185${item.posterPath}")
                     .transition(withCrossFade())
@@ -67,12 +61,6 @@ class MoviesAdapter(private val scope: CoroutineScope) :
 
                     })
                     .into(movieCover)
-        }
-
-        @SuppressLint("SimpleDateFormat")
-        fun getSimpleDateFormat(format: String, releaseDate: String): String {
-            val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(releaseDate)
-            return SimpleDateFormat(format, Locale.getDefault()).format(date)
         }
     }
 }
